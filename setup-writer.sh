@@ -43,8 +43,16 @@ mkdir -p /opt/LongRangeReader;
 cp *.py /opt/LongRangeReader/
 chmod +x /opt/LongRangeReader/*.py
 ###
+#Generate SSH key and upload to reader pi
+#ssh-keygen -t rsa
+#ssh-copy-id root@192.168.3.1
+#
+###
 ###Create sshfs automount
-echo sshfs#root@192.168.3.1:/opt/LongRangeReader /opt/LongRangeReader/mount fuse defaults,allow_other 0 0 >>/etc/fstab
+echo sshfs#root@192.168.3.1:/opt/LongRangeReader /opt/LongRangeReader/mount fuse defaults,cache=no,allow_other 0 0 >>/etc/fstab
+#
+#auto_cache is recommended rather than cache=no, but really doesn't seem up update as effectively
+#echo sshfs#root@192.168.3.1:/opt/LongRangeReader /opt/LongRangeReader/mount fuse defaults,auto_cache,allow_other 0 0 >>/etc/fstab
 #
 ###Setup Proxmark
 git clone https://github.com/proxmark/proxmark3.git
