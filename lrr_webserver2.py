@@ -55,14 +55,32 @@ HTML = """
 <iframe width="0" height="0" border="0" name="emptyframe" id="emptyframe"></iframe>
 <form action="./clonenumber" target="emptyframe" method="post">
 <div style="margin-bottom:5px">
-Row ID to clone:
-<input name="cardid" type="text"/>
+<table>
+  <tr>
+    <th><p id="clonerowid" >Row ID to clone:</p>
+	</th>
+  </tr>
+ </table>
+<input name="cardid" type="text" autocomplete="off"/>
 </div>
 <div>
-<input type="submit"/>
+<input type="submit" onclick="clonefunction()" value="Clone"/>
 </div>
 </form>
-
+<script>
+      function clonefunction(colourchange) {
+		document.getElementById("clonerowid").innerHTML = "Clone Successful";
+		document.getElementById("clonerowid").style.color = "#FFFFFF";
+          document.getElementById("clonerowid").style.background = "#4CAF50";
+        TimerRunning=true;
+        var timer = setTimeout(function() { changecolour(colourchange) }, 3000);
+      }
+      function changecolour(colourchange) {
+		document.getElementById("clonerowid").innerHTML = "Row ID to clone:";
+		document.getElementById("clonerowid").style.color = "black";
+		document.getElementById("clonerowid").style.background = "white";
+      }
+</script>
 <div id="file">
     <table id=credentials>
         <tr>
