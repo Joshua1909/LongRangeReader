@@ -132,7 +132,7 @@ pigpiod
 # Mount remote pi filesystem
 mount -a
 # Start long range reader script
-screen -dmS lrr_webserver2 bash -c "cd /opt/LongRangeReader; su -c 'python ./lrr_webserver2.py'"
+screen -dmS lrr_webserver bash -c "cd /opt/LongRangeReader; su -c 'python ./lrr_webserver.py'"
 exit 0
 EOM
 ###

@@ -11,8 +11,9 @@ import tornado.ioloop
 import tornado.web
 import os
 import csv
+import re
 
-CSV_FILE = "cards.csv"
+CSV_FILE = "mount/cards.csv"
 PORT = 80
 Listeners = []
 
@@ -48,9 +49,38 @@ HTML = """
     </head>
 <body>
 <div id="links">
-    <a href="./cards.csv">Download CSV</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="mount/cards.csv">Download CSV</a>&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="#" onclick="confirm('Are you sure you want to clear cards.csv?')?document.location.href='./clearcsv':null;">Clear CSV</a>&nbsp;&nbsp;&nbsp;&nbsp;
 </div>
+<iframe width="0" height="0" border="0" name="emptyframe" id="emptyframe"></iframe>
+<form action="./clonenumber" target="emptyframe" method="post">
+<div style="margin-bottom:5px">
+<table>
+  <tr>
+    <th><p id="clonerowid" >Row ID to clone:</p>
+	</th>
+  </tr>
+ </table>
+<input name="cardid" type="text" autocomplete="off"/>
+</div>
+<div>
+<input type="submit" onclick="clonefunction()" value="Clone"/>
+</div>
+</form>
+<script>
+      function clonefunction(colourchange) {
+		document.getElementById("clonerowid").innerHTML = "Clone Successful";
+		document.getElementById("clonerowid").style.color = "#FFFFFF";
+          document.getElementById("clonerowid").style.background = "#4CAF50";
+        TimerRunning=true;
+        var timer = setTimeout(function() { changecolour(colourchange) }, 3000);
+      }
+      function changecolour(colourchange) {
+		document.getElementById("clonerowid").innerHTML = "Row ID to clone:";
+		document.getElementById("clonerowid").style.color = "black";
+		document.getElementById("clonerowid").style.background = "white";
+      }
+</script>
 <div id="file">
     <table id=credentials>
         <tr>
@@ -65,7 +95,6 @@ HTML = """
         </tr>
     </table>
 </div>
-
     <script type="text/javascript" charset="utf-8">
         var credential;
         function parseCredential(line) {
@@ -179,11 +208,27 @@ class ClearCSV(tornado.web.RequestHandler):
         cards_file.seek(os.path.getsize(CSV_FILE))
         self.redirect('/')
 
+class CloneCard(tornado.web.RequestHandler):
+    def post(self):
+        cardid  = self.get_argument('cardid')
+        cardfile = open('mount/cards.csv')
+        cardnumbers = cardfile.read()
+        #print "Cardnumbers "+cardnumbers
+        regsearch = "^"+cardid+",(\d\d),(\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d\d),(000000)(..........),"
+        #print "Regsearch "+regsearch
+        found = re.search(regsearch, cardnumbers, flags=re.MULTILINE)
+        if found:
+                #print "Found "+found.group(4)
+                writenumber = found.group(4)
+                cardwrite="echo lf hid clone "+writenumber+" | /opt/proxmark3/client/proxmark3 /dev/ttyACM0"
+                os.system(cardwrite)
+
 application = tornado.web.Application([
     (r'/ws', CredentialHandler),
     (r'/', IndexHandler),
     (r'/clearcsv', ClearCSV),
-    (r'/cards.csv', CSVDownloadHandler)
+    (r'/mount/cards.csv', CSVDownloadHandler),
+    (r'/clonenumber', CloneCard)
 ])
 
 http_server = tornado.httpserver.HTTPServer(application)
