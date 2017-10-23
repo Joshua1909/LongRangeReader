@@ -1,6 +1,6 @@
 # Weaponised Reader
 
-Adapting the [Linuz](https://github.com/linuz/LongRangeReader) project, this sets up a HID long range RFID reader to wirelessly clone badges HID badges. This extends the functionality, to allow reading and writing of cards in the field. The build includes two devices, one 
+Adapting the [Linuz](https://github.com/linuz/LongRangeReader) project, this sets up a HID long range RFID reader to wirelessly clone badges HID badges. This extends the functionality, to allow reading and writing of cards in the field. The build includes two devices, one Raspberry Pi Zero W attaches to the HID Long Range Reader to interpret and store card data. The other Pi Zero W attaches to the Proxmark, and is used to run a webserver and run the clone commands in the field.
 
 Hardware Needed
 
