@@ -35,7 +35,7 @@ apt-get -y update && apt-get -y upgrade;
 #Install reaquired packages
 echo "[*] Installing Packages..."
 apt-get update;
-apt-get install -y git screen pigpio python-pip isc-dhcp-server hostapd build-essential python-dev;
+apt-get install -y git screen pigpio python-pip isc-dhcp-server hostapd build-essential python-dev dos2unix;
 pip install tornado pigpio;
 ###
 #
@@ -141,6 +141,7 @@ echo "[*] Installing LongRangeReader code to /opt/LongRangeReader/..."
 mkdir -p /opt/LongRangeReader;
 cp *.py /opt/LongRangeReader/
 chmod +x /opt/LongRangeReader/*.py
+dos2unix /opt/LongRangeReader/*.py
 ###
 #Create cards CSV
 touch /opt/LongRangeReader/cards.csv
