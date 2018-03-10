@@ -34,7 +34,7 @@ apt-get -y update && apt-get -y upgrade;
 #Install reaquired packages
 echo "[*] Installing Packages..."
 apt-get update;
-apt-get install -y git screen pigpio python-pip isc-dhcp-server hostapd build-essential python-dev p7zip git build-essential libreadline5 libreadline-dev libusb-0.1-4 libusb-dev libqt4-dev perl pkg-config wget libncurses5-dev gcc-arm-none-eabi libstdc++-arm-none-eabi-newlib sshfs;
+apt-get install -y git screen pigpio python-pip isc-dhcp-server hostapd build-essential python-dev p7zip git build-essential libreadline5 libreadline-dev libusb-0.1-4 libusb-dev libqt4-dev perl pkg-config wget libncurses5-dev gcc-arm-none-eabi libstdc++-arm-none-eabi-newlib sshfs dos2unix;
 pip install tornado pigpio;
 ###
 #Copying project files
@@ -42,6 +42,7 @@ echo "[*] Installing LongRangeReader code to /opt/LongRangeReader/..."
 mkdir -p /opt/LongRangeReader;
 cp *.py /opt/LongRangeReader/
 chmod +x /opt/LongRangeReader/*.py
+dos2unix /opt/LongRangeReader/*.py
 ###
 #Generate SSH key and upload to reader pi
 #ssh-keygen -t rsa
